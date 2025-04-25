@@ -1,41 +1,30 @@
 # Ansible URL Availability Monitoring
+
 This repository demonstrates the creation and execution of two Ansible roles designed to monitor the availability of specific URLs. The first role, check/tests the availability of a single URL, while the second, multiurl, checks the availability of multiple URLs.
-Table of Contents
-Exercise 1: Single URL Availability Check
 
-Exercise 2: Multiple URL Availability Check
+## Table of Contents
+- Exercise 1: Single URL Availability Check
+- Exercise 2: Multiple URL Availability Check
 
-Conclusion
+## Exercise 1: Single URL Availability Check
 
-License
-
-Exercise 1: Single URL Availability Check
-Objective
 Create an Ansible role named check_vibin_url to test the availability of the URL: https://www.stackoverflow.com/.
 
-Setup
-Ansible Environment Configuration:
+### Setup  
+**Ansible Environment Configuration:** Set up an Ansible environment with one control server and two managed nodes.
 
-Set up an Ansible environment with one control server and two managed nodes.
-
-Navigate to the project directory:
-
-bash
-Copy
-Edit
+Navigate to the project directory:  
+```
 ansible@server:~$ cd dev
 ansible@server:~/dev$ pwd
 /home/ansible/dev
+```
 SSH into the managed nodes:
-
-bash
-Copy
-Edit
+```
 ansible@server:~/dev$ ssh node1
 ansible@server:~/dev$ ssh node2
-Simulate Negative Test Case:
-
-On node2, update the inbound rules to block traffic on ports 80 and 443, simulating an unreachable URL scenario.
+```
+Simulate Negative Test Case: On node2, update the inbound rules to block traffic on ports 80 and 443, simulating an unreachable URL scenario.
 
 Create Ansible Role:
 
