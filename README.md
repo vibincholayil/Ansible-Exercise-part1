@@ -25,64 +25,24 @@ ansible@server:~/dev$ ssh node1
 ansible@server:~/dev$ ssh node2
 ```
 Simulate Negative Test Case: On node2, update the inbound rules to block traffic on ports 80 and 443, simulating an unreachable URL scenario.
+![image](https://github.com/user-attachments/assets/6faab780-02b1-4f65-85fe-99de4d500123)
 
-Create Ansible Role:
+**Create Ansible Role:**  
+Create the singleurl role to test the availability of the specified URL.  
+![image](https://github.com/user-attachments/assets/512f2e8b-1c9f-458d-9836-c8fc3609c00c)  
+My JSON script now outputs a difference in the "status": 200 field. Based on this outcome, I will move forward with creating a complete YAML file and keep this result as reference.  
+![image](https://github.com/user-attachments/assets/b19dd7d9-8b21-4c28-8d12-c403f102a9f5)  
+Output  
+![image](https://github.com/user-attachments/assets/138461da-84c3-43ba-ab5b-45dc105056d4)  
 
-Create the check_vibin_url role to test the availability of the specified URL.
-
-Define URL in defaults/main.yml:
-
-yaml
-Copy
-Edit
----
-url: https://www.stackoverflow.com/
-Create Task in tasks/main.yml:
-
-yaml
-Copy
-Edit
----
-- name: Check if URL is reachable
-  uri:
-    url: "{{ url }}"
-  register: url_status
-  failed_when: url_status.status != 200
-
-- name: Print URL reachability status
-  debug:
-    msg: "{{ url }} is reachable"
-Create Playbook:
-
-Create a playbook singleurltesting.yml to execute the role:
-
-yaml
-Copy
-Edit
----
-- name: Test URL reachability
-  hosts: all
-  roles:
-    - check_vibin_url
-Run the Playbook:
-
-Execute the playbook to test the URL reachability:
-
-bash
-Copy
-Edit
-ansible-playbook singleurltesting.yml
-Output
-The playbook will output the status of the URL reachability. If the URL is reachable, it will display a message indicating the URL is working. If the URL is not reachable, it will fail the task.
-
-Conclusion
+### Conclusion
 This exercise demonstrates how to create an Ansible role to check the availability of a single URL, handle different scenarios, and output the results accordingly.
 
-Exercise 2: Multiple URL Availability Check
-Objective
+## Exercise 2: Multiple URL Availability Check
+
 Extend the functionality to check the availability of multiple URLs.
 
-Setup
+### Setup
 Create multiurl Role:
 
 Create a new role named multiurl to check the availability of multiple URLs.
