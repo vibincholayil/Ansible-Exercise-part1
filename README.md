@@ -38,110 +38,73 @@ Output
 ### Conclusion
 This exercise demonstrates how to create an Ansible role to check the availability of a single URL, handle different scenarios, and output the results accordingly.
 
-## Exercise 2: Multiple URL Availability Check
-
+## Exercise 2: Multiple URL Availability Check  
 Extend the functionality to check the availability of multiple URLs.
 
 ### Setup
-Create multiurl Role:
-
+Create multiurl Role:  
 Create a new role named multiurl to check the availability of multiple URLs.
 
-Define URLs in defaults/main.yml:
+First, I created a single URL check script inside a roles directory named singleurl with the help ansible-playbook galaxy. 
+Define URLs in defaults/main.yml:  
+![image](https://github.com/user-attachments/assets/a27ee69d-69b8-4854-a11e-e5787a8a16c4)  
 
-yaml
-Copy
-Edit
+Add a YAML task in tasks/main.yml using the uri module to check if the URL is reachable.
+```
 ---
-urls:
-  - https://www.python.org
-  - https://www.nodejs.org
-  - https://www.djangoproject.com
-  - https://www.github.com
-  - https://www.gitlab.com
-  - https://www.bitbucket.org
-  - https://www.stackexchange.com
-  - https://www.linkedin.com
-  - https://www.salesforce.com
-  - https://www.ibm.com
-  - https://www.oracle.com
-  - https://www.dropbox.com
-  - https://www.adobe.com
-  - https://www.slack.com
-  - https://www.spotify.com
-  - https://www.airbnb.com
-  - https://www.booking.com
-  - https://www.zomato.com
-  - https://www.foodpanda.com
-  - https://www.uber.com
-Create Task in tasks/main.yml:
-
-yaml
-Copy
-Edit
----
-- name: Check if all URLs are reachable
+- name: check url is reachable or not
   uri:
-    url: "{{ item }}"
-  register: url_status
-  failed_when: url_status.status != 200
-  with_items: "{{ urls }}"
-  loop_control:
-    loop_var: item
-
-- name: Print URL reachability status
+   url: "{{ url }}"
+- name: print the {{ url }} is working
   debug:
-    msg: "{{ item }} is reachable"
-  with_items: "{{ urls }}"
-Create Playbook:
+   msg: "{{ url }} is working and reachble"
+```
 
-Create a playbook multiurltesting.yml to execute the role:
+Then, I created a single_url_monitoring.yml YAML file outside the role directory.  
+```
+vim /home/ansible/dev/singleurltesting.yml
+```
 
-yaml
-Copy
-Edit
+And added the following commands:  
+```
 ---
-- name: Test multiple URLs reachability
+- name: test the url reachablity
   hosts: all
   roles:
-    - multiurl
-Run the Playbook:
+   - singleurl
+```
 
-Execute the playbook to test the reachability of all URLs:
+Now, when I run singleurltesting.yml, it displays a message confirming that Google is reachable from both nodes.  
+![image](https://github.com/user-attachments/assets/ea451f70-3690-4672-9748-b114fbff7033)  
 
-bash
-Copy
-Edit
-ansible-playbook multiurltesting.yml
-Output
-The playbook will output the status of each URL's reachability. If a URL is reachable, it will display a message indicating the URL is working. If a URL is not reachable, it will fail the task for that specific URL.
+Now, I need to proceed to the second step. I have created another directory inside roles called multiurl using the ansible-galaxy command. Next, I navigated to the meta directory and opened main.yml. In this file, I added a list of dependencies, linking the role to singleurl.  
+![image](https://github.com/user-attachments/assets/5c22fd4d-a394-4497-916f-5314e2ced1d6)  
+![image](https://github.com/user-attachments/assets/cff8859a-89b5-4849-875b-4c2bee1dad6c)  
 
-Conclusion
-This exercise demonstrates how to extend the functionality to check the availability of multiple URLs using Ansible roles and handle different scenarios accordingly.
+Inside the tasks directory, I wrote the following command:
+```
+---
+- name: all urls has been tested and working fine.
+  debug:
+   msg: "url working fine"
+```
 
-Conclusion
-By completing these exercises, you have learned how to:
+I exited the role directory, wrote the code for multiurl, and then ran it.  
+```
+---
+- name: test the url reachablity
+  hosts: all
+  ignore_errors: true
+  roles:
+   - multiurl
+```
+```
+ansible-playbook muiltiurltesting.yml
+```
+![image](https://github.com/user-attachments/assets/6290af56-e8c3-48a7-9c42-e100c323f3d3)  
 
-Create Ansible roles to check the availability of URLs.
+Yeah! It has now successfully checked all the URLs I tested!
 
-Handle different scenarios, including reachable and unreachable URLs.
-
-Output the results of the URL reachability tests.
-
-Feel free to customize these roles and playbooks to suit your specific requirements.
-
-License
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-This README.md template provides a comprehensive overview of your project, including objectives, setup instructions, and conclusions for each exercise. It follows best practices for GitHub documentation, ensuring clarity and ease of understanding for users and collaborators.
-
-
-Sources
-
-
-You said:
-Create a first release README document for these files
-
-ChatGPT said:
-Certainly! Here's a polished and structured README.md tailored for the first release of your GitHub project, which demonstrates Ansible roles for URL availability monitoring:
-
+## Conclusion
+This exercise demonstrates how to extend the functionality to check the availability of multiple URLs using Ansible roles and handle different scenarios accordingly.  
+By completing these exercises, I have learned how to create Ansible roles to check the availability of URLs. Handle different scenarios, including reachable and unreachable URLs.Output the results of the URL reachability tests. Feel free to customize these roles and playbooks to suit your specific requirements. Learn together!
